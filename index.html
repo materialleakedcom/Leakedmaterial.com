@@ -1,123 +1,257 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Private Data Protection</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Private Gallery</title>
 
 <style>
 body{
-    margin:0;
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-    color:#fff;
+  margin:0;
+  font-family:Segoe UI, sans-serif;
+  background:#0b0b0b;
+  color:#fff;
+  text-align:center;
 }
 
+/* LOADER */
+#loader{
+  position:fixed;
+  inset:0;
+  background:#000;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+}
+.spinner{
+  width:45px;
+  height:45px;
+  border:4px solid #333;
+  border-top:4px solid #ff4b2b;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* HEADER */
 header{
-    text-align:center;
-    padding:20px;
-    font-size:24px;
-    font-weight:bold;
-    background:rgba(0,0,0,0.4);
+  padding:18px;
+  font-size:24px;
+  font-weight:600;
 }
 
-.container{
-    padding:20px;
-    display:grid;
-    grid-template-columns: repeat(auto-fit,minmax(150px,1fr));
-    gap:15px;
+/* BUTTONS */
+.buttons{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  justify-content:center;
+  margin:15px;
 }
-
 button{
-    padding:15px;
-    border:none;
-    border-radius:12px;
-    font-size:16px;
-    cursor:pointer;
-    background:linear-gradient(135deg,#ff512f,#dd2476);
-    color:white;
-    box-shadow:0 4px 10px rgba(0,0,0,0.4);
+  padding:12px 22px;
+  border:none;
+  border-radius:30px;
+  font-size:15px;
+  cursor:pointer;
+  color:#fff;
+}
+.main{background:linear-gradient(135deg,#ff512f,#dd2476)}
+.other{background:#222}
+
+/* SECTIONS */
+#gallerySection,#blocked{display:none;padding:15px}
+
+/* GALLERY */
+.gallery{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(110px,1fr));
+  gap:10px;
+}
+.gallery img{
+  width:100%;
+  max-width:160px;
+  border-radius:12px;
+  cursor:pointer;
 }
 
-button:hover{
-    transform:scale(1.05);
+/* AUDIO */
+.audio{
+  margin:25px auto;
+  background:#141414;
+  padding:15px;
+  border-radius:15px;
+  max-width:320px;
 }
 
-.popup{
-    position:fixed;
-    top:0;
-    left:0;
-    width:100%;
-    height:100%;
-    background:rgba(0,0,0,0.8);
-    display:none;
-    align-items:center;
-    justify-content:center;
+/* NOTICE */
+.notice{
+  font-size:13px;
+  opacity:.6;
+  margin-top:15px;
 }
 
-.popup-content{
-    background:#111;
-    padding:25px;
-    border-radius:15px;
-    text-align:center;
-    max-width:90%;
+/* BLOCKED */
+.block-box{
+  background:#111;
+  padding:25px;
+  border-radius:18px;
+  max-width:360px;
+  margin:40px auto;
 }
 
-.popup-content h2{
-    color:#ff4d4d;
+/* IMAGE POPUP */
+#imgModal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.95);
+  z-index:9998;
+  align-items:center;
+  justify-content:center;
 }
-
-.close{
-    margin-top:15px;
-    padding:10px 20px;
-    border:none;
-    border-radius:8px;
-    background:#444;
-    color:white;
-    cursor:pointer;
+#imgModal img{
+  max-width:95%;
+  max-height:95%;
+  border-radius:12px;
+}
+#imgModal span{
+  position:absolute;
+  top:15px;
+  right:20px;
+  font-size:30px;
+  cursor:pointer;
 }
 </style>
 </head>
 
-<body>
+<body oncontextmenu="return false">
 
-<header>
-🔐 PRIVATE DATA PROTECTION
-</header>
-
-<div class="container">
-    <button onclick="showProtection()">Ashir Anwar</button>
-    <button onclick="showProtection()">Josheph</button>
-    <button onclick="showProtection()">Krishna</button>
-    <button onclick="showProtection()">Md Allamin</button>
-    <button onclick="showProtection()">Aman</button>
-    <button onclick="showProtection()">Rahul</button>
-    <button onclick="showProtection()">Rohit</button>
-    <button onclick="showProtection()">Sahil</button>
+<!-- LOADER -->
+<div id="loader">
+  <div class="spinner"></div>
+  <p>Loading private content…</p>
 </div>
 
-<div class="popup" id="popup">
-    <div class="popup-content">
-        <h2>🔒 Personal Data Protected</h2>
-        <p>
-        This section is secured.<br><br>
-        ❌ Photos hidden<br>
-        ❌ Audio blocked<br>
-        ❌ IP not identified<br><br>
-        Access denied for privacy protection.
-        </p>
-        <button class="close" onclick="closePopup()">Close</button>
-    </div>
+<header>Private Access Panel</header>
+
+<div class="buttons">
+  <button class="main" onclick="openGallery()">Ashir Anwar</button>
+  <button class="other" onclick="blocked()">Joseph</button>
+  <button class="other" onclick="blocked()">Krishna</button>
+  <button class="other" onclick="blocked()">Md Allamin</button>
+  <button class="other" onclick="blocked()">Rahul</button>
+  <button class="other" onclick="blocked()">Aman</button>
+  <button class="other" onclick="blocked()">Saurabh</button>
+</div>
+
+<!-- GALLERY -->
+<div id="gallerySection">
+<h2>Ashir Anwar (Dighiyar)</h2>
+
+<div class="gallery">
+
+<img loading="lazy" src="https://i.postimg.cc/FFD5G4Y7/IMG-20260106-WA0051.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/BvGV4Yjy/IMG-20260106-WA0031.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/9ftNMd9S/IMG-20260106-WA0033.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/fbhrD2VG/IMG-20260106-WA0035.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/q7d54bNQ/IMG-20260106-WA0036.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/25FX6QWt/IMG-20260106-WA0037.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/s2RNs6M6/IMG-20260106-WA0038.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/KYyHxq1f/IMG-20260106-WA0039.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/43TSsLYW/IMG-20260106-WA0040.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/nLtPpRXY/IMG-20260106-WA0041.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/k5dpq12H/IMG-20260106-WA0042.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/htmYFWtr/IMG-20260106-WA0043.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/x1mZrD13/IMG-20260106-WA0044.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/g2h79F2k/IMG-20260106-WA0045.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/T3bs8M3q/IMG-20260106-WA0046.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/DwGNVkwc/IMG-20260106-WA0047.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/DwGNVkwT/IMG-20260106-WA0048.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/VkthyQks/IMG-20260106-WA0049.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/t46c0Q4q/IMG-20260106-WA0050.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/43mQCp5r/IMG-20260106-WA0003.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/mrtyx7wv/IMG-20260106-WA0004.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/d0LjMG6M/IMG-20260106-WA0005.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/3wdFM2Bc/IMG-20260106-WA0006.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/3wdFM2BS/IMG-20260106-WA0007.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/fbJf4YKg/IMG-20260106-WA0008.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/q7zxf2Lj/IMG-20260106-WA0009.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/KYRDXtN9/IMG-20260106-WA0010.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/TPpJ8n9q/IMG-20260106-WA0011.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/QMHJLcbg/IMG-20260106-WA0012.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/QMHJLcbS/IMG-20260106-WA0013.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/rpKN65J5/IMG-20260106-WA0014.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/nLCG8qkQ/IMG-20260106-WA0016.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/YShzcQ3F/IMG-20260106-WA0017.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/mrtyx7wH/IMG-20260106-WA0018.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/vZPtS0Wr/IMG-20260106-WA0019.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/GmMxSXkx/IMG-20260106-WA0020.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/W19wf5MM/IMG-20260106-WA0021.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/htC1329b/IMG-20260106-WA0022.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/Qd6JnfpT/IMG-20260106-WA0023.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/W19wf5MD/IMG-20260106-WA0024.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/P56QFSmx/IMG-20260106-WA0025.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/Vk7WHKjr/IMG-20260106-WA0026.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/52PSkswy/IMG-20260106-WA0027.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/T3kJHtrW/IMG-20260106-WA0028.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/FHPVnTj7/IMG-20260106-WA0029.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/kgjvhTx7/IMG-20260106-WA0030.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/Vk7WHKj5/IMG-20260106-WA0032.jpg" onclick="openImg(this.src)">
+<img loading="lazy" src="https://i.postimg.cc/YCXzyd1p/IMG-20260106-WA0034.jpg" onclick="openImg(this.src)">
+
+</div>
+<div class="audio">
+<iframe width="280" height="60"
+src="https://vocaroo.com/embed/1bo8AIAzvOSQ?autoplay=0"
+frameborder="0"></iframe>
+<div class="notice">Audio playable only here</div>
+</div>
+
+<div class="notice">🔒 IP not identified • Private viewing mode</div>
+</div>
+
+<!-- BLOCKED -->
+<div id="blocked">
+<div class="block-box">
+<h3>Personal Data Protection</h3>
+<p>Unauthorized access is restricted.</p>
+<div class="notice">🛡 IP not identified</div>
+</div>
+</div>
+
+<!-- IMAGE MODAL -->
+<div id="imgModal">
+<span onclick="closeImg()">×</span>
+<img id="modalImg">
 </div>
 
 <script>
-function showProtection(){
-    document.getElementById("popup").style.display="flex";
+window.onload=()=>setTimeout(()=>loader.style.display="none",1200);
+
+function openGallery(){
+ blocked(); 
+ document.getElementById("gallerySection").style.display="block";
+ document.getElementById("blocked").style.display="none";
 }
-function closePopup(){
-    document.getElementById("popup").style.display="none";
+
+function blocked(){
+ document.getElementById("gallerySection").style.display="none";
+ document.getElementById("blocked").style.display="block";
+}
+
+function openImg(src){
+ modalImg.src=src;
+ imgModal.style.display="flex";
+}
+
+function closeImg(){
+ imgModal.style.display="none";
 }
 </script>
 
 </body>
-</html>
+    </html>
