@@ -14,72 +14,83 @@
             align-items: center;
             height: 100vh;
             color: #333;
+            overflow: hidden;
         }
 
         .container {
             background: white;
             padding: 40px;
             border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
             text-align: center;
-            max-width: 600px;
-            border-top: 10px solid #d9534f;
+            max-width: 550px;
+            border-top: 12px solid #b71c1c;
+            position: relative;
         }
 
         .alert-icon {
-            font-size: 80px;
-            color: #d9534f;
-            margin-bottom: 20px;
-            animation: pulse 2s infinite;
+            font-size: 70px;
+            color: #b71c1c;
+            margin-bottom: 10px;
+            animation: pulse 1.5s infinite ease-in-out;
         }
 
         h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+            font-size: 26px;
+            margin-bottom: 15px;
+            color: #b71c1c;
+            font-weight: 800;
         }
 
         p {
-            line-height: 1.6;
-            color: #666;
+            line-height: 1.5;
+            color: #444;
+            font-size: 15px;
+        }
+
+        .timer-box {
+            background: #fff3f3;
+            border: 1px solid #ffcdd2;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        #countdown {
+            font-weight: bold;
+            font-size: 20px;
+            color: #b71c1c;
+        }
+
+        .btn {
+            background: #333;
+            color: white;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 4px;
+            display: inline-block;
+            font-weight: bold;
+            transition: background 0.3s;
+            cursor: pointer;
+            border: none;
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background: #000;
         }
 
         .ref-number {
-            font-family: monospace;
-            background: #eee;
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-
-        .footer {
-            margin-top: 30px;
+            font-family: 'Courier New', Courier, monospace;
             font-size: 12px;
-            color: #999;
-            border-top: 1px solid #eee;
-            padding-top: 20px;
+            color: #888;
+            margin-top: 15px;
         }
 
         @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .official-seal {
-            width: 80px;
-            height: 80px;
-            background: #ddd;
-            border-radius: 50%;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 10px;
-            color: #777;
-            border: 2px dashed #bbb;
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
     </style>
 </head>
@@ -87,25 +98,46 @@
 
 <div class="container">
     <div class="alert-icon">⚠️</div>
-    <h1>Access Denied</h1>
-    <p>This website has been blocked under the instructions of the <strong>Department of Telecommunications</strong> and the <strong>Ministry of Electronics and Information Technology</strong>.</p>
+    <h1>ACCESS RESTRICTED</h1>
+    <p>Your access to this URL has been blocked by the regulatory authority due to a violation of online safety protocols.</p>
     
-    <p>Accessing, viewing, or distributing content from this URL is restricted pursuant to national cybersecurity regulations and legal mandates regarding prohibited online content.</p>
-    
-    <div style="margin-top: 20px;">
-        <span class="ref-number">Case ID: BL-9920/2026-X</span>
+    <div class="timer-box">
+        Redirecting to safe portal in:<br>
+        <span id="countdown">12</span> seconds
     </div>
 
-    <div class="footer">
-        © 2026 Government Communications Authority<br>
-        IP Address Logged: <span id="ip">192.168.1.1</span>
+    <button class="btn" onclick="manualReturn()">Return to Home</button>
+
+    <div class="ref-number">
+        INCIDENT REF: #G20-BLOCK-2026-88X <br>
+        IP: <span id="user-ip">...</span>
     </div>
 </div>
 
 <script>
-    // Just a small script to make the IP look dynamic
-    const mockIP = `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 255)}`;
-    document.getElementById('ip').textContent = mockIP;
+    // 1. Generate Fake IP
+    const randomIP = `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 100)}.${Math.floor(Math.random() * 255)}.1`;
+    document.getElementById('user-ip').textContent = randomIP;
+
+    // 2. Countdown Logic
+    let timeLeft = 12;
+    const countdownElement = document.getElementById('countdown');
+
+    const timer = setInterval(() => {
+        timeLeft--;
+        countdownElement.textContent = timeLeft;
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+            window.location.href = "https://www.google.com"; // Change to your desired home URL
+        }
+    }, 1000);
+
+    // 3. Button Intercept
+    function manualReturn() {
+        alert("Action Logged. You are being redirected to a secure homepage.");
+        window.location.href = "https://www.google.com";
+    }
 </script>
 
 </body>
