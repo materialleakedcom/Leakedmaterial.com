@@ -3,121 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>403 - Restricted Access</title>
+    <title>403 - Access Prohibited</title>
     <style>
         body {
-            background-color: #f2f2f2;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            color: #333;
-            overflow: hidden;
+            color: #2c3e50;
         }
 
         .container {
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            background: #ffffff;
+            padding: 50px 40px;
+            border-radius: 4px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
             text-align: center;
-            max-width: 550px;
-            border-top: 12px solid #b71c1c;
+            max-width: 500px;
+            border-top: 15px solid #c0392b;
             position: relative;
         }
 
+        /* Subtle Government Seal Watermark */
+        .container::before {
+            content: "OFFICIAL";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-45deg);
+            font-size: 80px;
+            color: rgba(0,0,0,0.03);
+            font-weight: 900;
+            pointer-events: none;
+        }
+
         .alert-icon {
-            font-size: 70px;
-            color: #b71c1c;
-            margin-bottom: 10px;
-            animation: pulse 1.5s infinite ease-in-out;
+            font-size: 65px;
+            color: #c0392b;
+            margin-bottom: 15px;
+            animation: pulse 2s infinite ease-in-out;
         }
 
         h1 {
-            font-size: 26px;
-            margin-bottom: 15px;
-            color: #b71c1c;
-            font-weight: 800;
+            font-size: 22px;
+            margin: 0 0 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 900;
+        }
+
+        .case-details {
+            background: #1a1a1a;
+            color: #00ff00;
+            padding: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            border-radius: 3px;
+            margin-bottom: 20px;
+            text-align: left;
+            border-left: 4px solid #c0392b;
         }
 
         p {
-            line-height: 1.5;
-            color: #444;
-            font-size: 15px;
+            line-height: 1.6;
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 25px;
         }
 
-        .timer-box {
-            background: #fff3f3;
-            border: 1px solid #ffcdd2;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 5px;
+        .timer-info {
+            font-size: 14px;
+            font-weight: bold;
+            color: #7f8c8d;
+            margin-bottom: 20px;
         }
 
         #countdown {
-            font-weight: bold;
-            font-size: 20px;
-            color: #b71c1c;
+            color: #c0392b;
+            font-size: 18px;
         }
 
         .btn {
-            background: #333;
+            background: #2c3e50;
             color: white;
-            padding: 12px 25px;
+            padding: 12px 30px;
             text-decoration: none;
-            border-radius: 4px;
+            border-radius: 2px;
             display: inline-block;
             font-weight: bold;
-            transition: background 0.3s;
+            font-size: 13px;
             cursor: pointer;
             border: none;
-            margin-top: 10px;
+            transition: background 0.2s;
         }
 
         .btn:hover {
             background: #000;
         }
 
-        .ref-number {
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 12px;
-            color: #888;
-            margin-top: 15px;
-        }
-
         @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
+            0% { opacity: 1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 1; }
         }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <div class="alert-icon">⚠️</div>
-    <h1>ACCESS RESTRICTED</h1>
-    <p>Your access to this URL has been blocked by the regulatory authority due to a violation of online safety protocols.</p>
+    <div class="alert-icon">🚫</div>
+    <h1>Access Restricted</h1>
     
-    <div class="timer-box">
-        Redirecting to safe portal in:<br>
-        <span id="countdown">12</span> seconds
+    <div class="case-details">
+        <div><strong>CASE ID:</strong> GOV-9928-X-2026</div>
+        <div><strong>STATUS:</strong> PERMANENT BLOCK</div>
+        <div><strong>LOG_REF:</strong> <span id="log-ref">...</span></div>
     </div>
 
-    <button class="btn" onclick="manualReturn()">Return to Home</button>
-
-    <div class="ref-number">
-        INCIDENT REF: #G20-BLOCK-2026-88X <br>
-        IP: <span id="user-ip">...</span>
+    <p>
+        The content you are trying to view has been filtered in compliance with national cyber-security regulations. Your request has been logged.
+    </p>
+    
+    <div class="timer-info">
+        Automatic redirection in <span id="countdown">12</span>s
     </div>
+
+    <button class="btn" onclick="manualReturn()">RETURN TO HOMEPAGE</button>
 </div>
 
 <script>
-    // 1. Generate Fake IP
-    const randomIP = `${Math.floor(Math.random() * 255)}.${Math.floor(Math.random() * 100)}.${Math.floor(Math.random() * 255)}.1`;
-    document.getElementById('user-ip').textContent = randomIP;
+    // 1. Generate unique log reference
+    document.getElementById('log-ref').textContent = Math.random().toString(36).toUpperCase().substring(2, 10);
 
     // 2. Countdown Logic
     let timeLeft = 12;
@@ -129,13 +148,12 @@
 
         if (timeLeft <= 0) {
             clearInterval(timer);
-            window.location.href = "https://www.google.com"; // Change to your desired home URL
+            window.location.href = "https://www.google.com"; 
         }
     }, 1000);
 
-    // 3. Button Intercept
+    // 3. Manual Button
     function manualReturn() {
-        alert("Action Logged. You are being redirected to a secure homepage.");
         window.location.href = "https://www.google.com";
     }
 </script>
